@@ -1,0 +1,74 @@
+@import url('../fonts/Poppins/Poppins-Regular.ttf');
+@import "/node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+.sidebar__container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #054721;
+    height: 100vh;
+    width: 280px;
+    align-items: center;
+}
+.sidebar__container img{
+    height: 50px;
+    width: 50px;
+    margin-top: 20px;
+}
+.sidebar__container h2{
+    text-align: center;
+    color: white;
+}
+/* adminDashboard.css */
+.sidebar__container ul li a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    background-color: #054721;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar__container ul li a:hover {
+    background-color: #FEAE00; /* Change color on hover */
+}
+
+.logout__btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-top: 50px;
+}
+
+.logout__btn:hover {
+    color: #2d6235; 
+    transition: color 0.3s ease;
+}
+

@@ -1,0 +1,239 @@
+@import "/node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+html{
+    scroll-behavior: smooth;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+body{
+    height: 100vh;
+    width: 100vw;
+}
+.topbar__container{
+    width: 100%;
+    background-color: #054721;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 70px 400px 70px;
+    justify-content: space-between;
+    position: relative;
+  
+}
+.image-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.slider__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    animation: slideAnimation 10s infinite;
+}
+
+.slider__image:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.slider__image:nth-child(2) {
+    animation-delay: 5s;
+}
+
+@keyframes slideAnimation {
+    0%, 50% {
+        opacity: 0.2;
+    }
+    50.1%, 100% {
+        opacity: 0;
+    }
+}
+.center__message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 1000;
+    max-width: 70%;
+    opacity: 0; /* Start hidden */
+    transform: translate(-50%, -60%); /* Start slightly below */
+    animation: fadeInUp 1s ease forwards; /* Trigger animation on page load */
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.center__message h1 {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.4;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.center__message .highlight {
+    color: #FEAE00;
+}
+
+
+.left__container{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    color: white;
+    letter-spacing: 2px;
+    padding-left: 20px;
+    z-index: 1000;
+}
+.left__container .cdmLogo{
+    height: 50px;
+    width: 50px;
+}
+.middle__container{
+    display: flex;
+    gap: 70px;
+}
+.middle__container a{
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+    z-index: 1000; 
+}
+.middle__container a:hover {
+    color: #FEAE00; 
+}
+
+.profile__icon {
+    font-size: 25px; 
+    color: white;
+    cursor: pointer;
+}
+
+.profile__modal {
+    display: none; 
+    position: absolute;
+    top: 65px;
+    right: 70px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #054721;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+.profile__modal p {
+    margin: 5px 0;
+}
+
+.logout__button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    background-color: #FEAE00;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.logout__button:hover {
+    background-color: #ff9800;
+}
+
+
+
+
+/* Ticket Modal Design */
+
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8); /* Start scaled down */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal.show .modal-content {
+    transform: scale(1); /* Scale up smoothly */
+}
+
+
+.modal-content h2 {
+    color: #054721;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.close-button {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
