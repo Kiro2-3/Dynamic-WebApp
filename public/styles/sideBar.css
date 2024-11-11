@@ -39,20 +39,21 @@ body{
 /* adminDashboard.css */
 .sidebar__container ul li a {
     display: block;
-    padding: 10px;
-    color: white;
     text-decoration: none;
-    background-color: #054721;
-    border: none;
-    text-align: left;
+    color: white;
+    background-color: #054721; /* Color to match your sidebar */
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
     font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .sidebar__container ul li a:hover {
-    background-color: #FEAE00; /* Change color on hover */
+    background-color: #046a31; /* Slightly lighter green for hover effect */
 }
+
 
 .logout__btn {
     background: none;

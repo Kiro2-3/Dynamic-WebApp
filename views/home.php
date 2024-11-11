@@ -114,6 +114,8 @@
     </div>
 </div>
 
+
+<!-- Chat Section -->
 <div class="support-icon-container">
         <i class="fas fa-comments" id="chat-icon"></i>
     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/styles/AdminLogin.css">
+    <link rel="stylesheet" href="/public/styles/AdminCss/AdminLogin.css">
     <title>Document</title>
 </head>
 <body>
@@ -22,7 +22,8 @@
                         <input type="password" name="password">
                     </div>
                 </div>
-                <button class="btn__login">Login</button>
+                <a href="/views/Admin/statistics.php">Login</a>    
+                <!-- <button class="btn__login">Login</button> -->
         </div>
     </form>
 </body>

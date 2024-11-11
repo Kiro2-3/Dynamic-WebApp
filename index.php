@@ -1,4 +1,4 @@
 <!-- index.php -->
 <?php
-    include './views/Login.php.'
+   include './views/Admin/AdminLogin.php'
 ?>
