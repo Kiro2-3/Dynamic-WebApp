@@ -18,42 +18,59 @@ body{
     width: 100vw;
     display: flex;
 }
-.sidebar__container{
+.sidebar__container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     background-color: #054721;
     height: 100vh;
     width: 280px;
-    align-items: center;
+    align-items: center; /* Center the whole content, excluding the buttons */
 }
-.sidebar__container img{
+
+.sidebar__container ul {
+    width: 100%; /* Full width for the list to align buttons */
+    padding: 20px ; /* Remove padding for better alignment */
+}
+
+.sidebar__container ul li {
+    width: 100%; /* Ensure each list item spans the sidebar width */
+}
+
+.sidebar__container ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align content to the left within each button */
+    text-decoration: none;
+    color: white;
+    background-color: #054721;
+    padding: 15px 20px; /* Add left padding for spacing */
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Full width for each button */
+}
+
+.sidebar__container ul li a i {
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 18px;
+}
+
+.sidebar__container ul li a:hover {
+    background-color: #046a31;
+}
+
+.sidebar__container img {
     height: 50px;
     width: 50px;
     margin-top: 20px;
 }
-.sidebar__container h2{
+
+.sidebar__container h2 {
     text-align: center;
     color: white;
 }
-/* adminDashboard.css */
-.sidebar__container ul li a {
-    display: block;
-    text-decoration: none;
-    color: white;
-    background-color: #054721; /* Color to match your sidebar */
-    padding: 15px;
-    margin: 5px 0;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.sidebar__container ul li a:hover {
-    background-color: #046a31; /* Slightly lighter green for hover effect */
-}
-
 
 .logout__btn {
     background: none;
@@ -64,12 +81,10 @@ body{
     align-items: center;
     gap: 8px; 
     cursor: pointer;
-    padding: 5px 10px;
-    margin-top: 50px;
+    padding: 10px 20px;
 }
 
 .logout__btn:hover {
-    color: #2d6235; 
+    color: #2d6235;
     transition: color 0.3s ease;
 }
-

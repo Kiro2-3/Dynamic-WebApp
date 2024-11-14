@@ -9,10 +9,58 @@ body {
     width: 100%;
 }
 .header {
-    background-color: #054721; /* Matching your sidebar color */
+    background-color: #054721;
     color: #FEAE00;
     text-align: center;
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
+}
+.stats-section {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: space-around;
+}
+.stat-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    padding: 1rem;
+    text-align: center;
+    width: 200px;
+    position: relative;
+}
+.stat-card .stat-icon {
+    font-size: 2rem;
+    color: #054721;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    font-size: 2rem;
+    color: #FEAE00;
+    font-weight: bold;
+    margin: 0.5rem 0 0;
+}
+.chart-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+.chart {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.7);
+    width: 45%;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 30px;
 }
