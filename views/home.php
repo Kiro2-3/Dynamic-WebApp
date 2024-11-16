@@ -87,7 +87,7 @@
             </div>
         </div>
 
-       
+<!--        
         <div id="ticketModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button">&times;</span>
@@ -112,7 +112,7 @@
             <button type="submit" style="background-color: #054721; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Submit</button>
         </form>
     </div>
-</div>
+</div> -->
 
 
 <!-- Chat Section -->
@@ -142,7 +142,7 @@
 
 
     <script src="../js/Fadein.js"></script>
-    <script src="../js/TicketModal.js"></script>
+    <!-- <script src="../js/TicketModal.js"></script> -->
     <script src="../js/ChatModal.js"></script>
 </body>
 </html>

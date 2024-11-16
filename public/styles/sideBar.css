@@ -25,7 +25,8 @@ body{
     background-color: #054721;
     height: 100vh;
     width: 280px;
-    align-items: center; /* Center the whole content, excluding the buttons */
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .sidebar__container ul {

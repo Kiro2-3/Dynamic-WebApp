@@ -14,7 +14,7 @@ $tickets = [
         'id' => 1,
         'user_name' => 'John Doe',
         'institute' => 'Institute of Science',
-        'concern' => 'Unable to access account ',
+        'concern' => 'Unable to access account asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd',
         'status' => 'Active',
         'file' => 'uploads/account_issue.pdf'
     ],
@@ -124,7 +124,7 @@ $filteredTickets = array_filter($paginatedTickets, function ($ticket) use ($sear
 <?php require('../../components/sidebar.php') ?>
 
 <div class="container">
-    <div class="header">
+    <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
         Colegio de Montalban - <span style="color: white;">Tickets</span>
     </div>
 
@@ -164,7 +164,13 @@ $filteredTickets = array_filter($paginatedTickets, function ($ticket) use ($sear
                                 No attachment
                             <?php endif; ?>
                         </td>
-                        <td><?php echo $ticket['status']; ?></td>
+                        <td>
+                            <select name="status"  onchange="updateTicketStatus(this, <?php echo $ticket['id']; ?>)"  style="background-color: <?php echo $ticket['status'] === 'Active' ? '#28a745' : '#007bff'; ?>;">
+                                <option value="Active" <?php echo $ticket['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
+                                <option value="Done" <?php echo $ticket['status'] === 'Done' ? 'selected' : ''; ?>>Done</option>
+                            </select>
+                        </td>
+
                         <td>
                             <button class="edit-button" onclick="openEditModal(<?php echo $ticket['id']; ?>)">Edit</button>
                             <button class="delete-button" onclick="deleteTicket(<?php echo $ticket['id']; ?>)">Delete</button>
@@ -216,7 +222,18 @@ function deleteTicket(ticketId) {
         alert(`Ticket with ID ${ticketId} deleted.`);
     }
 }
+function updateTicketStatus(selectElement, ticketId) {
+    const selectedValue = selectElement.value;
+
+    const activeColor = '#28a745'; 
+    const doneColor = '#007bff'; 
+
+  
+    selectElement.style.backgroundColor = selectedValue === 'Active' ? activeColor : doneColor;
+}
+
 </script>
+
 
 </body>
 </html>

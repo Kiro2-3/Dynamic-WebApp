@@ -17,7 +17,7 @@
     <div class="middle__container">
         <!-- Use JavaScript to load pages without refreshing -->
         <a href="/views/home.php">Home</a>
-        <a href="#" id="ticketLink">Ticket</a>
+        <a href="/views/Ticket.php">Ticket</a>
         <a href="#about">About</a>
 
     </div>

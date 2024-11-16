@@ -1,32 +1,35 @@
 <?php
-// Sample data array for credentials
-$credentialsData = [
-    ['user_id' => '001', 'username' => 'johndoe', 'email' => 'johndoe@example.com', 'role' => 'Admin'],
-    ['user_id' => '002', 'username' => 'janedoe', 'email' => 'janedoe@example.com', 'role' => 'User'],
-    ['user_id' => '003', 'username' => 'alice', 'email' => 'alice@example.com', 'role' => 'User'],
-    ['user_id' => '004', 'username' => 'bob', 'email' => 'bob@example.com', 'role' => 'Admin'],
-    ['user_id' => '005', 'username' => 'charlie', 'email' => 'charlie@example.com', 'role' => 'User'],
-    ['user_id' => '006', 'username' => 'dave', 'email' => 'dave@example.com', 'role' => 'Admin'],
-    ['user_id' => '007', 'username' => 'eve', 'email' => 'eve@example.com', 'role' => 'User'],
-    ['user_id' => '008', 'username' => 'frank', 'email' => 'frank@example.com', 'role' => 'User'],
-    ['user_id' => '009', 'username' => 'grace', 'email' => 'grace@example.com', 'role' => 'Admin'],
-    ['user_id' => '010', 'username' => 'hank', 'email' => 'hank@example.com', 'role' => 'User'],
-    ['user_id' => '011', 'username' => 'irene', 'email' => 'irene@example.com', 'role' => 'User'],
-    ['user_id' => '012', 'username' => 'jack', 'email' => 'jack@example.com', 'role' => 'Admin'],
-    // Add more as needed...
-];
 
-// Pagination settings
 $rowsPerPage = 7;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $startRow = ($currentPage - 1) * $rowsPerPage;
 
-// Calculate the total number of pages
-$totalRows = count($credentialsData);
+$totalRows = 0; // Default to 0, will be updated based on the imported data
 $totalPages = ceil($totalRows / $rowsPerPage);
 
-// Get the data for the current page
-$paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
+$paginatedData = []; // Initially empty, will be populated from data source
+
+// Check if a file was uploaded
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file']) && $_FILES['import-file']['error'] == 0) {
+    $jsonFile = $_FILES['import-file']['tmp_name'];
+    
+  
+    $jsonData = file_get_contents($jsonFile);
+    $students = json_decode($jsonData, true)['students'];  
+
+    foreach ($students as &$student) {
+
+        if (isset($student['password'])) {
+            $student['password'] = password_hash($student['password'], PASSWORD_DEFAULT);
+        }
+    }
+
+ 
+    $totalRows = count($students);
+    $totalPages = ceil($totalRows / $rowsPerPage);
+    $paginatedData = array_slice($students, $startRow, $rowsPerPage);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +46,7 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
 <?php require('../../components/sidebar.php') ?>
 
 <div class="container">
-    <div class="header">
+    <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
         Colegio de Montalban - <span style="color: white;">Credentials</span>
     </div>
     <div class="credentials-content">
@@ -51,7 +54,9 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
             <div class="button-group">
                 <button class="add-user-button">Add New User</button>
                 <label for="import-file" class="import-button">Import JSON</label>
-                <input type="file" id="import-file" accept=".json" style="display: none;">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="file" id="import-file" name="import-file" accept=".json" style="display: none;" onchange="this.form.submit();">
+                </form>
             </div>
             <div class="search-bar">
                 <form method="get" action="">
@@ -68,9 +73,10 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
                 <thead>
                     <tr>
                         <th>User ID</th>
+                        <th>Student No</th>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Role</th>
+                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -81,9 +87,10 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
                         foreach ($paginatedData as $user) {
                             echo "<tr>
                                 <td>" . $user['user_id'] . "</td>
+                                <td>" . $user['StudentID'] . "</td>
                                 <td>" . $user['username'] . "</td>
                                 <td>" . $user['email'] . "</td>
-                                <td>" . $user['role'] . "</td>
+                                <td>" . $user['password'] . "</td>
                                 <td>
                                     <button class='edit-button'>Edit</button>
                                     <button class='delete-button'>Delete</button>
@@ -91,7 +98,7 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
                             </tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5'>No records found</td></tr>";
+                        echo "<tr><td colspan='6'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -101,13 +108,13 @@ $paginatedData = array_slice($credentialsData, $startRow, $rowsPerPage);
             <div class="pagination">
                 <button 
                     <?php if ($currentPage <= 1) echo 'disabled'; ?>
-                    onclick="window.location.href='?page=<?php echo $currentPage - 1; ?>&search=<?php echo htmlspecialchars($search); ?>'">
+                    onclick="window.location.href='?page=<?php echo $currentPage - 1; ?>'">
                     Previous
                 </button>
                 <span id="page-info">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
                 <button 
                     <?php if ($currentPage >= $totalPages) echo 'disabled'; ?>
-                    onclick="window.location.href='?page=<?php echo $currentPage + 1; ?>&search=<?php echo htmlspecialchars($search); ?>'">
+                    onclick="window.location.href='?page=<?php echo $currentPage + 1; ?>'">
                     Next
                 </button>
             </div>

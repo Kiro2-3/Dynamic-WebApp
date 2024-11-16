@@ -5,7 +5,6 @@
         <ul style="list-style-type: none;">
             <li><a href="/views/Admin/statistics.php"><i class="fa fa-chart-bar"></i> Statistics</a></li>
             <li><a href="/views/Admin/chatsupport.php"><i class="fa fa-comments"></i> Chat Support</a></li>
-            <li><a href="/views/Admin/issues.php"><i class="fa fa-exclamation-circle"></i> Issues</a></li>
             <li><a href="/views/Admin/tickets.php"><i class="fa fa-ticket-alt"></i> Tickets</a></li>
             <li><a href="/views/Admin/credentials.php"><i class="fa fa-user-shield"></i> Credentials</a></li>
         </ul>

@@ -14,7 +14,7 @@
     <?php require('../../components/sidebar.php') ?>
 
     <div class="container">
-        <div class="header">
+        <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
             Colegio de Montalban - <span style="color: white;">Statistics</span>
         </div>
         

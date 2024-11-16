@@ -176,7 +176,7 @@ body{
 
 /* Ticket Modal Design */
 
-.modal {
+/* .modal {
     display: none; 
     position: fixed;
     top: 0;
@@ -199,7 +199,7 @@ body{
     max-width: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(0.8); /* Start scaled down */
+    transform: scale(0.8); 
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -209,7 +209,7 @@ body{
 }
 
 .modal.show .modal-content {
-    transform: scale(1); /* Scale up smoothly */
+    transform: scale(1); 
 }
 
 
@@ -236,4 +236,4 @@ body{
     font-size: 20px;
     cursor: pointer;
     color: #333;
-}
+} */

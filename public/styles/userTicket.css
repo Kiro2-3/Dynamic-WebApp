@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+h1 {
+    text-align: center;
+    color: #054721;
+}
+.section {
+    margin-bottom: 30px;
+}
+.section h2 {
+    font-size: 20px;
+    color: #054721;
+    margin-bottom: 10px;
+}
+.submit-ticket, .ticket-status {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.submit-ticket form, .ticket-status .status-content {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input, textarea, select, button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    background-color: #054721;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #036c31;
+}
+.status-content ul {
+    list-style: none;
+    padding: 0;
+}
+.status-content li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.status-content li:last-child {
+    border-bottom: none;
+}
