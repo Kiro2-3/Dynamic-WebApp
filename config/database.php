@@ -1,16 +1,23 @@
 <?php
 require '../vendor/autoload.php';
 
-$dbUri = 'mongodb+srv://<db_username>:<db_password>@webapp-cluster.jytyq.mongodb.net/?retryWrites=true&w=majority&appName=webapp-cluster';
-$db_name = 'webapp';
-try {
-  
-    $client = new MongoDB\Client($dbUri);
-    $database = $client->webapp;
+use MongoDB\Client;
+use Dotenv\Dotenv;
 
-    echo 'Youve successfully connected to the database!' .$db_name;
+// Load environment variables
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+try {
+ 
+    $dbUri = getenv('DB_URI') ?: 'mongodb+srv://ColegioDeMontalban_Chat-Support:ColegioDeMontalban_Chat-Support@webapp-cluster.jytyq.mongodb.net/?retryWrites=true&w=majority';
+
+    $client = new Client($dbUri);
+    return $client;
 } catch (Exception $e) {
-    echo 'Connection error: ' . $e->getMessage();
+   
+    error_log('MongoDB connection error: ' . $e->getMessage());
+    throw new Exception('Failed to connect to MongoDB. Check your configuration.');
 }
 
-?>
+

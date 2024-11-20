@@ -4,31 +4,10 @@ $rowsPerPage = 7;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $startRow = ($currentPage - 1) * $rowsPerPage;
 
-$totalRows = 0; // Default to 0, will be updated based on the imported data
+$totalRows = count($studentsData); // Total records fetched from MongoDB
 $totalPages = ceil($totalRows / $rowsPerPage);
 
-$paginatedData = []; // Initially empty, will be populated from data source
-
-// Check if a file was uploaded
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file']) && $_FILES['import-file']['error'] == 0) {
-    $jsonFile = $_FILES['import-file']['tmp_name'];
-    
-  
-    $jsonData = file_get_contents($jsonFile);
-    $students = json_decode($jsonData, true)['students'];  
-
-    foreach ($students as &$student) {
-
-        if (isset($student['password'])) {
-            $student['password'] = password_hash($student['password'], PASSWORD_DEFAULT);
-        }
-    }
-
- 
-    $totalRows = count($students);
-    $totalPages = ceil($totalRows / $rowsPerPage);
-    $paginatedData = array_slice($students, $startRow, $rowsPerPage);
-}
+$paginatedData = array_slice($studentsData, $startRow, $rowsPerPage); // Slice data for pagination
 
 ?>
 
@@ -43,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file']) && $_
 </head>
 <body>
 
-<?php require('../../components/sidebar.php') ?>
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/components/sidebar.php') ?>
 
 <div class="container">
     <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
@@ -86,11 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file']) && $_
                     if (!empty($paginatedData)) {
                         foreach ($paginatedData as $user) {
                             echo "<tr>
-                                <td>" . $user['user_id'] . "</td>
-                                <td>" . $user['StudentID'] . "</td>
-                                <td>" . $user['username'] . "</td>
-                                <td>" . $user['email'] . "</td>
-                                <td>" . $user['password'] . "</td>
+                                <td>" . htmlspecialchars($user['user_id']) . "</td>
+                                <td>" . htmlspecialchars($user['StudentID']) . "</td>
+                                <td>" . htmlspecialchars($user['username']) . "</td>
+                                <td>" . htmlspecialchars($user['email']) . "</td>
+                                <td>" . htmlspecialchars($user['password']) . "</td>
                                 <td>
                                     <button class='edit-button'>Edit</button>
                                     <button class='delete-button'>Delete</button>
