@@ -11,13 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file'])) {
     $fileSize = $_FILES['import-file']['size'];
     $fileType = $_FILES['import-file']['type'];
     
-    // Check if it's a valid JSON file
+
     if ($fileType !== 'application/json') {
         echo 'Please upload a valid JSON file.';
         exit;
     }
 
-    // Read and decode the JSON file
+
     $fileContent = file_get_contents($fileTmpPath);
     $students = json_decode($fileContent, true);
 
@@ -26,21 +26,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import-file'])) {
         exit;
     }
 
-    // Flatten the data to remove the "students" wrapper
-    $students = $students['students']; // Extract the array from the "students" key
+    $students = $students['students']; 
 
-    // Insert data into MongoDB using the AdminModel's insertCredentials method
     try {
-        $insertCount = $adminModel->insertCredentials($students);  // Call the method from AdminModel
+        $insertCount = $adminModel->insertCredentials($students); 
       
     } catch (Exception $e) {
         echo 'Error importing data: ' . $e->getMessage();
     }
 }
 
-// Fetch all credentials after the insertion
-$studentsData = $adminModel->getCredentials();  // Method to fetch credentials from MongoDB
+if($_SERVER['REQUEST_METHOD']){
+    $deleteID = isset($_POST['deleteStudentId'])? $_POST['deleteStudentId'] : null;
+    
+    try {
+        if ($deleteID) {
+            $adminModel->deleteCredentialsById($deleteID);
+        }
+    } catch (\Throwable $th) {
+        echo 'Error deleting data: ' . $th->getMessage();
+    }   
+}
+if ($_SERVER['REQUEST_METHOD']) {
+    $deleteAll = isset($_POST['deleteAll']) ? $_POST['deleteAll'] : null;
 
-// Pass the data to the view
+    if ($deleteAll) {
+        try {
+            $adminModel->deleteAllCredentials();
+           
+        } catch (\Throwable $th) {
+            echo 'Error deleting data: ' . $th->getMessage();
+        }
+    }
+}
+
+
+
+
+$studentsData = $adminModel->getCredentials();  
+
+
 require '../views/Admin/credentials.php';
 ?>

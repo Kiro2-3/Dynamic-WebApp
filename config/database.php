@@ -13,6 +13,8 @@ try {
     $dbUri = getenv('DB_URI') ?: 'mongodb+srv://ColegioDeMontalban_Chat-Support:ColegioDeMontalban_Chat-Support@webapp-cluster.jytyq.mongodb.net/?retryWrites=true&w=majority';
 
     $client = new Client($dbUri);
+
+   
     return $client;
 } catch (Exception $e) {
    

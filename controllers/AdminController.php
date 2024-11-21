@@ -24,10 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Invalid Credentials');</script>";
         }
       
-    } catch (\Throwable $th) {
-        echo 'error';
+    }  catch (\Throwable $th) {
+        error_log('Error during login: ' . $th->getMessage()); // Log for debugging
+        echo 'Error: ' . $th->getMessage(); // Display error details
     }
 }
+
 
 require '../views/Admin/AdminLogin.php';
 ?>
