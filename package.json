@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "php -S 192.168.0.101:8000"
+    "start": "php -S Localhost:8000"
   },
   "author": "",
   "license": "ISC",
