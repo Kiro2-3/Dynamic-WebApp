@@ -1,16 +1,23 @@
 {
-  "name": "finalproj",
+  "name": "merged-project",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "php -S Localhost:8000"
+    "start": "php -S localhost:8000",
+    "start:chat": "node app.js",
+    "dev:chat": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
-    "mongodb": "^6.10.0"
+    "mongodb": "^6.10.0",
+    "express": "^4.17.1",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

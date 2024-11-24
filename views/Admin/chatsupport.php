@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/styles/AdminCss/ChatSupport.css">
-    <title>Chat Support</title>
-</head>
-<body>
-<?php require('../../components/sidebar.php') ?>
-
-<div class="container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="chat.css" />
+  </head>
+  
+  <body> 
     <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-        Colegio de Montalban - <span style="color: white;">Chat Support</span>
-    </div>
+      Colegio de Montalban - <span style="color: white;">Chat Support</span>
+  </div>
+ 
+  <?php 
+require('../../components/sidebar.php'); 
+require('../../components/topBar.php'); 
+?>
+
     <div class="main-content">
         <!-- User Profiles Section -->
         <div class="user-profiles">
@@ -30,13 +39,49 @@
         <!-- Chat Box Section -->
         <div class="chat-box">
             <div class="chat-messages">
-                <p><strong>User 1:</strong> Hello, I need help with my account.</p>
-                <p><strong>Admin:</strong> Sure, let me assist you with that.</p>
-                <!-- Repeat for each message -->
+   
+              <div class="container">
+                <div class="main">
+                  <div class="name">
+                    <span><i class="far fa-user"></i></span>
+                    <input
+                      type="text"
+                      id="name-input"
+                      class="name-input"
+                      value="INVALID VALUE PORT 4000 Error"
+                      maxlength="20"
+                    />
+                  </div>
+            
+                  <ul class="message-container" id="message-container">
+                  </ul>
+            
+                  <form class="message-form" id="message-form">
+                    <input
+                      type="text"
+                      name="message"
+                      id="message-input"
+                      class="message-input"
+                    />
+                    <div class="v-divider"></div>
+                 
+                    <button type="submit" class="send-button">Send<span><i class="fas fa-paper-plane"></i></button>
+                  </form>
+                </div>
+                <h3 class="clients-total" id="client-total">Total clients: 2</h3>
+            <script src="https://cdn.jsdelivr.net/npm/socket.io@2.3.0/dist/socket.io.js"></script>
+            <script src="path/to/main.js"></script>
+                <script src="/socket.io/socket.io.js"></script>
+                <script 
+                  src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
+                  integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
+                  crossorigin="anonymous"
+                ></script>
+                <script src="main.js"></script>
             </div>
             <div class="message-input">
                 <textarea rows="2" placeholder="Type a message..."></textarea>
-                <button type="button">Send</button>
+            
             </div>
         </div>
     </div>

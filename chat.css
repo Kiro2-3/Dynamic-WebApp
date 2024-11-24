@@ -1,0 +1,228 @@
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.header {
+    background-color: #054721; /* Matching your sidebar color */
+    color: #FEAE00;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.main-content {
+    display: flex;
+    flex: 1;
+}
+.user-profiles {
+    width: 30%;
+    background-color: #f0f0f0;
+    padding: 1rem;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+}
+.searbar__container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+.search-input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* Add padding on right for icon */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+}
+.search-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.6; 
+}
+.chat-box {
+    width: 70%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+.message-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.message-input textarea {
+    flex-grow: 1;
+    resize: none;
+    padding: 0.5rem;
+}
+.message-input button {
+    background-color: #054721;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease; 
+}
+.message-input button:hover {
+    background-color: #FEAE00;
+    
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  display: grid;
+  place-items: center;
+  background-color: #ebebeb;
+}
+
+.title {
+  margin: 20px 0;
+}
+
+.main {
+  border: 8px solid #dddddd;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.name {
+  display: flex;
+  font-size: 32px;
+  font-weight: 700;
+  padding: 8px 16px;
+  color: #7e7e7e;
+  background-color: #ebebeb;
+}
+
+.name > span {
+  color: #bbb;
+}
+
+.name-input {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7e7e7e;
+  flex-grow: 1;
+  border: none;
+  margin: 0px 12px;
+  outline: none;
+  background-color: #ebebeb;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f6f6;
+  width: 400px;
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.message-left,
+.message-right {
+  list-style: none;
+  padding: 8px 12px;
+  margin: 12px;
+  max-width: 250px;
+  font-size: 18px;
+  word-wrap: break-word;
+}
+
+.message-left {
+  border-radius: 20px 20px 20px 0px;
+  align-self: flex-start;
+  background-color: #fff;
+  box-shadow: -2px 2px 4px #dcdcdc;
+}
+
+.message-right {
+  border-radius: 20px 20px 0px 20px;
+  align-self: flex-end;
+  background-color: #023800;
+  box-shadow: 2px 2px 4px #dcdcdc;
+  color: #f6f6f6;
+}
+
+.message-left > p > span,
+.message-right > p > span {
+  display: block;
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.feedback {
+  font-style: italic;
+  font-size: 14px;
+  padding: 0px 16px 16px 16px;
+  color: #005a0f;
+  text-align: center;
+}
+
+.message-form {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+}
+
+.message-input {
+  flex-grow: 1;
+  height: 48px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 0 12px;
+  background-color: #fff;
+}
+
+.send-button {
+  height: 48px;
+  font-size: 16px;
+  border: none;
+  padding: 0px 20px;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.v-divider {
+  height: 48px;
+  width: 2px;
+  background-color: #f6f6f6;
+}
+
+.clients-total {
+  margin: 20px 0;
+  color: #7e7e7e;
+}
