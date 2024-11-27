@@ -1,3 +1,11 @@
+<?php
+use App\Middleware\AuthMiddleware;
+require_once dirname(__DIR__) . '/Middleware/AuthMiddleware.php';
+
+// Check if the student is not logged in, if so, redirect to login page
+AuthMiddleware::checkStudentNotLoggedIn();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

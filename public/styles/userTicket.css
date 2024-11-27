@@ -14,7 +14,7 @@ body {
 }
 h1 {
     text-align: center;
-    color: #054721;
+   
 }
 .section {
     margin-bottom: 30px;
@@ -63,4 +63,38 @@ button:hover {
 }
 .status-content li:last-child {
     border-bottom: none;
+}
+
+table {
+    border-collapse: separate; 
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden; 
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+thead th {
+    text-align: left;
+    padding: 10px;
+    background-color: #054721;
+    color: white;
+    border: none; 
+
+}
+
+
+tbody td {
+    padding: 5px;
+    text-align: left;
+    border: none; 
+}
+
+
+tbody tr {
+    border-bottom: 1px solid #ddd; 
+}
+
+tbody td.status {
+    border-bottom: 1px solid #ddd; 
 }

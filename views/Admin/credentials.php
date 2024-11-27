@@ -136,15 +136,15 @@ $paginatedData = array_slice($studentsData, $startRow, $rowsPerPage); // Slice d
 
 <script>
     document.getElementById('deleteAllBtn').addEventListener('click', function() {
-        document.getElementById('deleteAllModal').style.display = 'block'; // Show the delete all modal
+        document.getElementById('deleteAllModal').style.display = 'block'; 
     });
     document.addEventListener('DOMContentLoaded', function () {
-    // Close the Delete All modal when clicking the Cancel button
+   
     document.querySelector('.modal-close').addEventListener('click', function() {
-        document.getElementById('deleteAllModal').style.display = 'none'; // Close the modal
+        document.getElementById('deleteAllModal').style.display = 'none'; 
     });
     
-    // Close the Delete modal when clicking the Cancel button
+  
     document.querySelectorAll('.modal-close').forEach(button => {
         button.addEventListener('click', function() {
             const modal = this.closest('.modal');

@@ -1,3 +1,20 @@
+<?php
+// Make sure tickets are passed to the view
+$tickets = $tickets ?? []; // Ensure tickets is always an array (in case it's null)
+
+// Continue with pagination logic
+$rowsPerPage = 7;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, $page);
+$startIndex = ($page - 1) * $rowsPerPage;
+$totalTickets = count($tickets);
+$totalPages = ceil($totalTickets / $rowsPerPage);
+$offset = ($page - 1) * $rowsPerPage;
+$paginatedTickets = array_slice($tickets, $offset, $rowsPerPage); // Fixed the variable name to match
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,121 +24,7 @@
     <title>Tickets</title>
 </head>
 <body>
-<?php
-// Sample ticket data with file attachments
-$tickets = [
-    [
-        'id' => 1,
-        'user_name' => 'John Doe',
-        'institute' => 'Institute of Science',
-        'concern' => 'Unable to access account asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd',
-        'status' => 'Active',
-        'file' => 'uploads/account_issue.pdf'
-    ],
-    [
-        'id' => 2,
-        'user_name' => 'Jane Smith',
-        'institute' => 'Institute of Technology',
-        'concern' => 'Error in submission form',
-        'status' => 'Done',
-        'file' => 'uploads/form_error_screenshot.png'
-    ],
-    [
-        'id' => 3,
-        'user_name' => 'Mike Johnson',
-        'institute' => 'Institute of Engineering',
-        'concern' => 'Slow loading times',
-        'status' => 'Active',
-        'file' => 'uploads/loading_issue_log.txt'
-    ],
-    [
-        'id' => 4,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 5,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 6,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 7,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 8,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 9,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 10,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-    [
-        'id' => 11,
-        'user_name' => 'Anna White',
-        'institute' => 'Institute of Arts',
-        'concern' => 'File upload issue',
-        'status' => 'Done',
-        'file' => 'uploads/upload_error_report.docx'
-    ],
-];
-
-// Pagination logic
-$rowsPerPage = 7;
-$totalTickets = count($tickets);
-$totalPages = ceil($totalTickets / $rowsPerPage);
-
-// Get current page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$startIndex = ($page - 1) * $rowsPerPage;
-
-// Slice the ticket array to show only the tickets for the current page
-$paginatedTickets = array_slice($tickets, $startIndex, $rowsPerPage);
-
-// Simple search filter logic
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-$filteredTickets = array_filter($paginatedTickets, function ($ticket) use ($search) {
-    return strpos(strtolower($ticket['user_name']), strtolower($search)) !== false ||
-           strpos(strtolower($ticket['institute']), strtolower($search)) !== false ||
-           strpos(strtolower($ticket['concern']), strtolower($search)) !== false;
-});
-?>
-
-<?php require('../../components/sidebar.php') ?>
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/components/sidebar.php') ?>
 
 <div class="container">
     <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
@@ -133,89 +36,186 @@ $filteredTickets = array_filter($paginatedTickets, function ($ticket) use ($sear
                 <form method="get" action="">
                     <div class="search-icon-container">
                         <i class="fas fa-search"></i> 
-                        <input type="text" name="search" placeholder="Search Credentials..." value="<?php echo htmlspecialchars($search); ?>">
+                        <input type="text" id="searchInput" placeholder="Search tickets..." onkeyup="filterTable()" />
                     </div>
                 </form>
         </div>
 
         <table>
-           <thead>
-               <tr>
-                   <th>Ticket ID</th>
-                   <th>User Name</th>
-                   <th>Institute</th>
-                   <th>Concern</th>
-                   <th>Attachment</th>
-                   <th>Status</th>
-                   <th>Actions</th>
-               </tr>
-           </thead>
+            <thead>
+                <tr>
+    
+                    <th>Email</th>
+                    <th>Institute</th>
+                    <th>Concern</th>
+                    <th>Attachment</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
             <tbody>
-                <?php foreach ($filteredTickets as $ticket): ?>
-                    <tr>
-                        <td><?php echo $ticket['id']; ?></td>
-                        <td><?php echo $ticket['user_name']; ?></td>
-                        <td><?php echo $ticket['institute']; ?></td>
-                        <td class="concern"><?php echo $ticket['concern']; ?></td>
-                        <td class="file-attachment">
-                            <?php if ($ticket['file']): ?>
-                                <a href="<?php echo $ticket['file']; ?>" target="_blank">Download</a>
-                            <?php else: ?>
-                                No attachment
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <select name="status"  onchange="updateTicketStatus(this, <?php echo $ticket['id']; ?>)"  style="background-color: <?php echo $ticket['status'] === 'Active' ? '#28a745' : '#007bff'; ?>;">
-                                <option value="Active" <?php echo $ticket['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
-                                <option value="Done" <?php echo $ticket['status'] === 'Done' ? 'selected' : ''; ?>>Done</option>
-                            </select>
-                        </td>
+                <?php if (!empty($paginatedTickets)): ?>
+                    <?php foreach ($paginatedTickets as $ticket): ?>
+                        <tr>
+                        
+                            <td><?php echo htmlspecialchars($ticket['Email']); ?></td>
+                            <td><?php echo htmlspecialchars($ticket['institute']); ?></td>
+                            <td class="concern">
+                                <?php 
+                                    $concern = htmlspecialchars($ticket['concern']);
+                                    echo strlen($concern) > 50 
+                                        ? substr($concern, 0, 50) . '... <a href="#" onclick="viewConcern(\'' . htmlspecialchars($ticket['_id']) . '\')">See More</a>'
+                                        : $concern;
+                                ?>
+                            </td>
+                            <td class="file-attachment">
+                                <?php if (!empty($ticket['file'])): ?>
+                                    <a href="<?php echo htmlspecialchars($ticket['file']); ?>" target="_blank">Download</a>
+                                <?php else: ?>
+                                    No attachment
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <select name="status" onchange="updateTicketStatus(this, '<?php echo $ticket['_id']; ?>')"
+                                    style="background-color: <?php echo $ticket['status'] === 'Active' ? '#28a745' : '#007bff'; ?>;">
+                                    <option value="Active" <?php echo $ticket['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
+                                    <option value="Done" <?php echo $ticket['status'] === 'Done' ? 'selected' : ''; ?>>Done</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="view-button" onclick="openViewModal(<?php echo htmlspecialchars(json_encode($ticket)); ?>)">
+                                    View
+                                </button>
+                                <button class="email-button" onclick="openEmailModal('<?php echo htmlspecialchars($ticket['Email']); ?>')">
+                                    Send Email
+                                </button>
+                                <button class="delete-button" onclick="deleteTicket('<?php echo htmlspecialchars($ticket['_id']); ?>')">
+                                    Delete
+                                </button>
+                            </td>
 
-                        <td>
-                            <button class="edit-button" onclick="openEditModal(<?php echo $ticket['id']; ?>)">Edit</button>
-                            <button class="delete-button" onclick="deleteTicket(<?php echo $ticket['id']; ?>)">Delete</button>
-                        </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">No tickets found.</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
 
         <div class="pagination">
-            <button <?php if ($page <= 1) echo 'disabled'; ?> onclick="window.location.href='?page=<?php echo $page - 1; ?>&search=<?php echo htmlspecialchars($search); ?>'">Previous</button>
+            <button <?php if ($page <= 1) echo 'disabled'; ?> 
+                onclick="window.location.href='?page=<?php echo $page - 1; ?>'">Previous</button>
             <span>Page <?php echo $page; ?> of <?php echo $totalPages; ?></span>
-            <button <?php if ($page >= $totalPages) echo 'disabled'; ?> onclick="window.location.href='?page=<?php echo $page + 1; ?>&search=<?php echo htmlspecialchars($search); ?>'">Next</button>
+            <button <?php if ($page >= $totalPages) echo 'disabled'; ?> 
+                onclick="window.location.href='?page=<?php echo $page + 1; ?>'">Next</button>
         </div>
     </div>
 </div>
-
-<!-- Modal for editing ticket -->
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeEditModal()">&times;</span>
-        <h2>Edit Ticket</h2>
-        <form id="editTicketForm" method="post" action="edit_ticket.php">
-            <input type="hidden" id="ticketId" name="ticketId">
-            <label for="status">Status</label>
-            <select name="status" id="status">
-                <option value="Active">Active</option>
-                <option value="Done">Done</option>
-            </select>
-            <label for="email">Send Email to User</label>
-            <input type="email" id="email" name="email" placeholder="user@example.com">
-            <button class="save-button" type="submit">Save Changes</button>
+<!-- View Modal -->
+<div id="viewModal" class="modal">
+    <div class="modal-content view-modal-content">
+        <span class="close" onclick="closeViewModal()">&times;</span>
+        <h2 class="modal-title">Ticket Details</h2>
+        <div id="ticketDetails">
+            <div class="view-detail-group">
+                <strong>Email:</strong> <span id="viewEmail"></span>
+            </div>
+            <div class="view-detail-group">
+                <strong>Institute:</strong> <span id="viewInstitute"></span>
+            </div>
+            <div class="view-detail-group">
+                <strong>Concern:</strong> <span id="viewConcern"></span>
+            </div>
+            <div class="view-detail-group">
+                <strong>Status:</strong> <span id="viewStatus"></span>
+            </div>
+            <div class="view-detail-group">
+                <strong>Attachment:</strong> <a id="viewAttachment" href="#" target="_blank">View File</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Send Email Modal -->
+<div id="emailModal" class="modal">
+    <div class="modal-content email-modal-content">
+        <span class="close" onclick="closeEmailModal()">&times;</span>
+        <h2 class="modal-title">Send Email</h2>
+        <form id="sendEmailForm" method="post" action="send_email.php">
+            <div class="modal-input-group">
+                <label for="emailRecipient">Recipient Email:</label>
+                <input type="email" id="emailRecipient" name="emailRecipient" placeholder="Enter recipient's email" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="emailSubject">Subject:</label>
+                <input type="text" id="emailSubject" name="emailSubject" placeholder="Enter email subject" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="emailMessage">Message:</label>
+                <textarea id="emailMessage" name="emailMessage" placeholder="Enter your message" rows="5" required></textarea>
+            </div>
+            <button class="save-button" type="submit">Send Email</button>
         </form>
     </div>
 </div>
 
+
 <script>
-function openEditModal(ticketId) {
-    document.getElementById('editModal').style.display = 'flex';
-    document.getElementById('ticketId').value = ticketId;
+
+function updateTicketStatus(selectElement, ticketId) {
+    const selectedValue = selectElement.value;
+    
+    // Send the status update request to the server using AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "TicketController.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Optionally update the UI with the new status
+            selectElement.style.backgroundColor = selectedValue === 'Active' ? '#28a745' : '#007bff';
+        } else {
+            alert("Failed to update ticket status.");
+        }
+    };
+    xhr.send("ticketId=" + ticketId + "&status=" + selectedValue);
+}
+</script>
+<script>
+function openViewModal(ticket) {
+    const modal = document.getElementById('viewModal');
+    modal.classList.add('show'); // Add 'show' class to trigger the transition
+
+    // Populate modal content
+    document.getElementById('viewEmail').textContent = ticket.Email || 'N/A';
+    document.getElementById('viewInstitute').textContent = ticket.institute || 'N/A';
+    document.getElementById('viewConcern').textContent = ticket.concern || 'N/A';
+    document.getElementById('viewStatus').textContent = ticket.status || 'N/A';
+    if (ticket.file) {
+        document.getElementById('viewAttachment').href = ticket.file;
+        document.getElementById('viewAttachment').textContent = 'Download';
+    } else {
+        document.getElementById('viewAttachment').textContent = 'No Attachment';
+        document.getElementById('viewAttachment').removeAttribute('href');
+    }
 }
 
-function closeEditModal() {
-    document.getElementById('editModal').style.display = 'none';
+function closeViewModal() {
+    const modal = document.getElementById('viewModal');
+    modal.classList.remove('show'); // Remove 'show' class to trigger fade-out
 }
+
+function openEmailModal(email) {
+    const modal = document.getElementById('emailModal');
+    modal.classList.add('show'); // Add 'show' class to trigger the transition
+    document.getElementById('emailRecipient').value = email;
+}
+
+function closeEmailModal() {
+    const modal = document.getElementById('emailModal');
+    modal.classList.remove('show'); // Remove 'show' class to trigger fade-out
+}
+
 
 function deleteTicket(ticketId) {
     if (confirm('Are you sure you want to delete this ticket?')) {
@@ -231,6 +231,31 @@ function updateTicketStatus(selectElement, ticketId) {
   
     selectElement.style.backgroundColor = selectedValue === 'Active' ? activeColor : doneColor;
 }
+
+
+function filterTable() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase(); 
+    const tableRows = document.querySelectorAll('tbody tr'); 
+    tableRows.forEach(row => {
+        const userName = row.children[1].textContent.toLowerCase(); 
+        const institute = row.children[2].textContent.toLowerCase(); 
+        const concern = row.children[3].textContent.toLowerCase(); 
+        const status = row.children[5].textContent.toLowerCase(); 
+        
+        // Check if any column matches the search input
+        if (
+            userName.includes(searchInput) || 
+            institute.includes(searchInput) || 
+            concern.includes(searchInput) || 
+            status.includes(searchInput)
+        ) {
+            row.style.display = ''; 
+        } else {
+            row.style.display = 'none'; 
+        }
+    });
+}
+
 
 </script>
 

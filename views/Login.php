@@ -16,20 +16,20 @@
             <div class="input__form">
                 <div class="group__input">
                     <label for="studentNo">Student No:</label>
-                    <input type="text" name="studentNo">
+                    <input type="text" name="studentNo" required>
                 </div>
 
                 <div class="group__input">
                     <label for="email">Email:</label>
-                    <input type="email" name="email">
+                    <input type="email" name="email" required>
                 </div>
 
                 <div class="group__input">
                     <label for="password">Password:</label>
-                    <input type="password" name="password">
+                    <input type="password" name="password" required>
                 </div>
             </div>
-            <a href="/views/Home.php" class="btn__login">Login</a>
+            <button class="btn__login" type="submit">Login</button>
             <label class="btn__label">Don’t have an Account? <span style="color: hsl(145, 87%, 15%)">Enroll Now</span></label>
         </form>
         
@@ -39,5 +39,7 @@
         </div>
     </div>
     
+
+<script src="../js/SearchBar.js"></script>
 </body>
 </html>

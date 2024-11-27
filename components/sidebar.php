@@ -2,15 +2,14 @@
 
 session_start();
 
-// Function to log out and redirect
+
 function logout(){
-    session_unset();  // Clear all session variables
-    session_destroy();  // Destroy the session
-    header('Location: /controllers/AdminController.php');  // Redirect to admin controller
+    session_unset();  
+    session_destroy();  
+    header('Location: /controllers/AdminController.php');  
     exit();
 }
 
-// Check if the logout button was pressed and handle the logout
 if (isset($_POST['logout'])) {
     logout();
 }
@@ -26,7 +25,7 @@ if (isset($_POST['logout'])) {
     <ul style="list-style-type: none;">
         <li><a href="/views/Admin/statistics.php"><i class="fa fa-chart-bar"></i> Statistics</a></li>
         <li><a href="/views/Admin/chatsupport.php"><i class="fa fa-comments"></i> Chat Support</a></li>
-        <li><a href="/views/Admin/tickets.php"><i class="fa fa-ticket-alt"></i> Tickets</a></li>
+        <li><a href="/controllers/AdminTicketController.php"><i class="fa fa-ticket-alt"></i> Tickets</a></li>
         <li><a href="/controllers/CredentialsController.php"><i class="fa fa-user-shield"></i> Credentials</a></li>
     </ul>
 

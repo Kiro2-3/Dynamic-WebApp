@@ -7,11 +7,12 @@ use App\Middleware\AuthMiddleware;
 class AdminModel {
     private $adminCollection;
     private $credentialsCollection;
+    private $ticketsCollection;
 
     public function __construct() {
         $client = require '../config/database.php';
 
-       
+        $this->ticketsCollection = $client->webapp->tickets;
         $this->adminCollection = $client->webapp->admin;
         $this->credentialsCollection = $client->webapp->credentials;
     }
@@ -109,6 +110,37 @@ class AdminModel {
         } catch (\Throwable $e) {
             error_log('Failed to delete all credentials: ' . $e->getMessage());
             return false; 
+        }
+    }
+
+    public function getAllTickets() {
+        try {
+            $tickets = $this->ticketsCollection->find()->toArray();
+    
+
+            foreach ($tickets as &$ticket) {
+                $ticket = $ticket->getArrayCopy(); 
+            }
+    
+            return $tickets;
+        } catch (\Throwable $e) {
+            error_log('Failed to fetch tickets: ' . $e->getMessage());
+            return [];
+        }
+    }
+    
+    
+    public function updateTicketStatus($ticketId, $status) {
+        try {
+            $result = $this->ticketsCollection->updateOne(
+                ['_id' => $ticketId],
+                ['$set' => ['status' => $status]]
+            );
+
+            return $result->getModifiedCount() > 0;
+        } catch (\Throwable $e) {
+            error_log('Failed to update ticket status: ' . $e->getMessage());
+            return false;
         }
     }
     
