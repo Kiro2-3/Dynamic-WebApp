@@ -1,43 +1,33 @@
-function openEmailModal() {
-    const emailModal = document.getElementById('emailModal');
-    const modalContent = emailModal.querySelector('.modal-content');
+function openViewModal(ticket) {
+    const modal = document.getElementById('viewModal');
+    modal.classList.add('show'); // Add 'show' class to trigger the transition
 
-    emailModal.style.display = 'flex'; 
-    setTimeout(() => {
-        emailModal.classList.add('show');
-        modalContent.classList.add('show');
-    }, 10); 
-}
-
-function closeEmailModal() {
-    const emailModal = document.getElementById('emailModal');
-    const modalContent = emailModal.querySelector('.modal-content');
-
-    emailModal.classList.remove('show');
-    modalContent.classList.remove('show');
-    setTimeout(() => {
-        emailModal.style.display = 'none'; 
-    }, 300); 
-}
-
-function openViewModal() {
-    const viewModal = document.getElementById('viewModal');
-    const modalContent = viewModal.querySelector('.modal-content');
-
-    viewModal.style.display = 'flex'; 
-    setTimeout(() => {
-        viewModal.classList.add('show');
-        modalContent.classList.add('show');
-    }, 10); 
+    // Populate modal content
+    document.getElementById('viewEmail').textContent = ticket.Email || 'N/A';
+    document.getElementById('viewInstitute').textContent = ticket.institute || 'N/A';
+    document.getElementById('viewConcern').textContent = ticket.concern || 'N/A';
+    document.getElementById('viewStatus').textContent = ticket.status || 'N/A';
+    if (ticket.file) {
+        document.getElementById('viewAttachment').href = ticket.file;
+        document.getElementById('viewAttachment').textContent = 'Download';
+    } else {
+        document.getElementById('viewAttachment').textContent = 'No Attachment';
+        document.getElementById('viewAttachment').removeAttribute('href');
+    }
 }
 
 function closeViewModal() {
-    const viewModal = document.getElementById('viewModal');
-    const modalContent = viewModal.querySelector('.modal-content');
+    const modal = document.getElementById('viewModal');
+    modal.classList.remove('show'); 
+}
 
-    viewModal.classList.remove('show');
-    modalContent.classList.remove('show');
-    setTimeout(() => {
-        viewModal.style.display = 'none'; 
-    }, 300); 
+function openEmailModal(email) {
+    const modal = document.getElementById('emailModal');
+    modal.classList.add('show'); 
+    document.getElementById('emailRecipient').value = email;
+}
+
+function closeEmailModal() {
+    const modal = document.getElementById('emailModal');
+    modal.classList.remove('show'); 
 }

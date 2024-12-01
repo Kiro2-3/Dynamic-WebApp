@@ -19,8 +19,9 @@ class TicketController {
     public function handleRequest() {
         session_start();
 
+       
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $this->processTicketSubmission();
+                $this->processTicketSubmission();
         }
 
         if (isset($_SESSION['email'])) {
@@ -35,7 +36,7 @@ class TicketController {
     }
 
     private function processTicketSubmission() {
-        $email = $_POST['Email'] ?? '';
+        $email = $_POST['email'] ?? '';
         $institute = $_POST['institute'] ?? '';
         $concern = $_POST['concern'] ?? '';
         $fileName = $_FILES['attachment']['name'] ?? null;
@@ -44,7 +45,7 @@ class TicketController {
             echo "<script>alert('Please fill out all required fields.');</script>";
             return;
         }
-
+        
         $fileData = null;
         $fileType = null;
 
@@ -75,7 +76,7 @@ class TicketController {
             echo "<script>alert('Error submitting ticket. Please try again.');</script>";
         }
     }
-
+  
 
 }
 

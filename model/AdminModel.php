@@ -1,7 +1,8 @@
 <?php
 namespace App\Models;
 use App\Middleware\AuthMiddleware;
-
+use MongoDB\BSON\ObjectId;
+require '../vendor/autoload.php';
 
 
 class AdminModel {
@@ -18,7 +19,7 @@ class AdminModel {
     }
 
     public function createAdmin($email, $password) {
-        AuthMiddleware::checkAuthenticated();
+     
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $result = $this->adminCollection->insertOne(['email' => $email, 'password' => $hashedPassword]);
@@ -128,21 +129,40 @@ class AdminModel {
             return [];
         }
     }
-    
-    
     public function updateTicketStatus($ticketId, $status) {
         try {
+            $objectId = new ObjectId($ticketId);
             $result = $this->ticketsCollection->updateOne(
-                ['_id' => $ticketId],
+                ['_id' => $objectId],
                 ['$set' => ['status' => $status]]
             );
-
+    
             return $result->getModifiedCount() > 0;
         } catch (\Throwable $e) {
-            error_log('Failed to update ticket status: ' . $e->getMessage());
+            error_log("Failed to update ticket status: " . $e->getMessage());
             return false;
         }
     }
     
+    
+    
+    public function deleteTicketById($ticketId) {
+        try {
+             $objectId = new ObjectId($ticketId);
+             $result = $this->ticketsCollection->deleteOne(['_id' => $objectId]);
+    
+            if ($result->getDeletedCount() > 0) {
+                return true; 
+            } else {
+                error_log("No ticket found with ID: " . $ticketId);
+                return false; 
+            }
+        } catch (\Throwable $e) {
+            error_log("Failed to delete ticket: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+  
 }
 

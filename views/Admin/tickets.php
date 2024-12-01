@@ -76,22 +76,28 @@ $paginatedTickets = array_slice($tickets, $offset, $rowsPerPage); // Fixed the v
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <select name="status" onchange="updateTicketStatus(this, '<?php echo $ticket['_id']; ?>')"
-                                    style="background-color: <?php echo $ticket['status'] === 'Active' ? '#28a745' : '#007bff'; ?>;">
-                                    <option value="Active" <?php echo $ticket['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
-                                    <option value="Done" <?php echo $ticket['status'] === 'Done' ? 'selected' : ''; ?>>Done</option>
-                                </select>
+                                <form method="post" action="">
+                                    <input type="hidden" name="ticketId" value="<?php echo htmlspecialchars($ticket['_id']); ?>">
+                                    <select name="status" onchange="this.form.submit()" style="background-color: <?php echo $ticket['status'] === 'Active' ? '#28a745' : '#007bff'; ?>;">
+                                        <option value="Active" <?php echo $ticket['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
+                                        <option value="Done" <?php echo $ticket['status'] === 'Done' ? 'selected' : ''; ?>>Done</option>
+                                    </select>
+                                    <input type="hidden" name="update_status" value="1">
+                                </form>
                             </td>
-                            <td>
+                            <td class="button-cell">
                                 <button class="view-button" onclick="openViewModal(<?php echo htmlspecialchars(json_encode($ticket)); ?>)">
                                     View
                                 </button>
                                 <button class="email-button" onclick="openEmailModal('<?php echo htmlspecialchars($ticket['Email']); ?>')">
                                     Send Email
                                 </button>
-                                <button class="delete-button" onclick="deleteTicket('<?php echo htmlspecialchars($ticket['_id']); ?>')">
-                                    Delete
-                                </button>
+                               
+                                    <form method="post" action="">
+                                        <input type="hidden" name="ticketId" value="<?php echo htmlspecialchars($ticket['_id']); ?>">
+                                        <button type="submit" name="delete_ticket" class="delete-button">Delete</button>
+                                    </form>
+                            
                             </td>
 
                         </tr>
@@ -142,7 +148,7 @@ $paginatedTickets = array_slice($tickets, $offset, $rowsPerPage); // Fixed the v
     <div class="modal-content email-modal-content">
         <span class="close" onclick="closeEmailModal()">&times;</span>
         <h2 class="modal-title">Send Email</h2>
-        <form id="sendEmailForm" method="post" action="send_email.php">
+        <form id="sendEmailForm" method="post" >
             <div class="modal-input-group">
                 <label for="emailRecipient">Recipient Email:</label>
                 <input type="email" id="emailRecipient" name="emailRecipient" placeholder="Enter recipient's email" required>
@@ -155,82 +161,15 @@ $paginatedTickets = array_slice($tickets, $offset, $rowsPerPage); // Fixed the v
                 <label for="emailMessage">Message:</label>
                 <textarea id="emailMessage" name="emailMessage" placeholder="Enter your message" rows="5" required></textarea>
             </div>
-            <button class="save-button" type="submit">Send Email</button>
+            <button class="save-button" type="submit" name="sendEmail">Send Email</button>
         </form>
     </div>
 </div>
 
 
+<script src="../../js/AdminModals.js"></script>
 <script>
 
-function updateTicketStatus(selectElement, ticketId) {
-    const selectedValue = selectElement.value;
-    
-    // Send the status update request to the server using AJAX
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "TicketController.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // Optionally update the UI with the new status
-            selectElement.style.backgroundColor = selectedValue === 'Active' ? '#28a745' : '#007bff';
-        } else {
-            alert("Failed to update ticket status.");
-        }
-    };
-    xhr.send("ticketId=" + ticketId + "&status=" + selectedValue);
-}
-</script>
-<script>
-function openViewModal(ticket) {
-    const modal = document.getElementById('viewModal');
-    modal.classList.add('show'); // Add 'show' class to trigger the transition
-
-    // Populate modal content
-    document.getElementById('viewEmail').textContent = ticket.Email || 'N/A';
-    document.getElementById('viewInstitute').textContent = ticket.institute || 'N/A';
-    document.getElementById('viewConcern').textContent = ticket.concern || 'N/A';
-    document.getElementById('viewStatus').textContent = ticket.status || 'N/A';
-    if (ticket.file) {
-        document.getElementById('viewAttachment').href = ticket.file;
-        document.getElementById('viewAttachment').textContent = 'Download';
-    } else {
-        document.getElementById('viewAttachment').textContent = 'No Attachment';
-        document.getElementById('viewAttachment').removeAttribute('href');
-    }
-}
-
-function closeViewModal() {
-    const modal = document.getElementById('viewModal');
-    modal.classList.remove('show'); // Remove 'show' class to trigger fade-out
-}
-
-function openEmailModal(email) {
-    const modal = document.getElementById('emailModal');
-    modal.classList.add('show'); // Add 'show' class to trigger the transition
-    document.getElementById('emailRecipient').value = email;
-}
-
-function closeEmailModal() {
-    const modal = document.getElementById('emailModal');
-    modal.classList.remove('show'); // Remove 'show' class to trigger fade-out
-}
-
-
-function deleteTicket(ticketId) {
-    if (confirm('Are you sure you want to delete this ticket?')) {
-        alert(`Ticket with ID ${ticketId} deleted.`);
-    }
-}
-function updateTicketStatus(selectElement, ticketId) {
-    const selectedValue = selectElement.value;
-
-    const activeColor = '#28a745'; 
-    const doneColor = '#007bff'; 
-
-  
-    selectElement.style.backgroundColor = selectedValue === 'Active' ? activeColor : doneColor;
-}
 
 
 function filterTable() {

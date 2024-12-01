@@ -96,16 +96,6 @@
 
 
             
-            public function deleteTicket($ticketId) {
-                try {
-                    $result = $this->ticketCollection->deleteOne(['_id' => $ticketId]);
-                    return $result->getDeletedCount() > 0;
-                } catch (\Throwable $e) {
-                    echo 'Error deleting ticket: ' . $e->getMessage();
-                    return false;
-                }
-            }
             
-
 }
 ?>

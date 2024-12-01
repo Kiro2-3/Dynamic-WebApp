@@ -7,8 +7,8 @@ use App\Models\AdminModel;
 
 $adminModel = new AdminModel();
 
-$email = 'colegiodemontalban@gmail.com';
-$password = 'colegiodemontalban';
+$email = 'colegiodemontalban123@gmail.com';
+$password = 'colegiodemontalban123__';
 
 $adminId = $adminModel->createAdmin($email, $password);    
 

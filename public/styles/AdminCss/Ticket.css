@@ -78,28 +78,45 @@ body {
     overflow: hidden; /* Hides overflow */
     text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
 }
+/* Ensure the td containing the buttons uses flexbox */
+.ticket-table td.button-cell {
+    display: flex;
+    justify-content: center; /* Align buttons horizontally */
+    align-items: center; /* Align buttons vertically */
+    gap: 10px; /* Space between buttons */
+}
 
+/* Button Styling */
 button {
-    color: white;
-    border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
     border-radius: 5px;
+    border: none;
+    height: 36px; /* Uniform button height */
+    line-height: 20px; /* Ensure text is centered */
 }
-.view-button{
+
+/* Button specific styles */
+.view-button {
     background-color: #24a0ed;
-    margin-right: 5px;
+    color: white;
 }
+
 .email-button {
     background-color: #FEAE00;
-    margin-right: 5px;
+    color: white;
 }
+
 .delete-button {
     background-color: #D9534F;
+    color: white;
 }
-.save-button {
-    background-color: #FEAE00;
+
+/* Hover effect */
+button:hover {
+    opacity: 0.8;
 }
+
 
 /* Minimalist Search Bar */
 .search-bar {
