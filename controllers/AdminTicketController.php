@@ -22,6 +22,7 @@ class AdminTicketController {
             return;
         }
         
+        
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (isset($_POST['sendEmail'])) {
                 $this->sendEmail();
@@ -33,6 +34,9 @@ class AdminTicketController {
         }
 
         $tickets = $this->adminModel->getAllTickets();
+        if (!empty($ticket['fileContent'])) {
+            $ticket['fileContent'] = base64_encode($tickets['fileContent']);
+        }
         require '../views/Admin/tickets.php';
     }
 
@@ -113,6 +117,7 @@ class AdminTicketController {
             echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}');</script>";
         }
     }
+    
 }
 
 $controller = new AdminTicketController();

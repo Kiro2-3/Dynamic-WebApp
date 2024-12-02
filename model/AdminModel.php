@@ -2,7 +2,7 @@
 namespace App\Models;
 use App\Middleware\AuthMiddleware;
 use MongoDB\BSON\ObjectId;
-require '../vendor/autoload.php';
+require ($_SERVER['DOCUMENT_ROOT']) . '/vendor/autoload.php';
 
 
 class AdminModel {
@@ -11,7 +11,7 @@ class AdminModel {
     private $ticketsCollection;
 
     public function __construct() {
-        $client = require '../config/database.php';
+        $client = require ($_SERVER['DOCUMENT_ROOT']) . '/config/database.php';
 
         $this->ticketsCollection = $client->webapp->tickets;
         $this->adminCollection = $client->webapp->admin;
@@ -115,20 +115,29 @@ class AdminModel {
     }
 
     public function getAllTickets() {
-        try {
-            $tickets = $this->ticketsCollection->find()->toArray();
-    
+    try {
+        $tickets = $this->ticketsCollection->find()->toArray();
 
-            foreach ($tickets as &$ticket) {
-                $ticket = $ticket->getArrayCopy(); 
+        foreach ($tickets as &$ticket) {
+
+            if (isset($ticket['fileContent']) && !empty($ticket['fileContent'])) {
+                $fileContent = base64_decode($ticket['fileContent']);
+                
+                $filePath = '\Users\visay\OneDrive\Pictures\Camera Roll/' . $ticket['fileName'];
+                
+                file_put_contents($filePath, $fileContent);
+
+                $ticket['filePath'] = $filePath;
             }
-    
-            return $tickets;
-        } catch (\Throwable $e) {
-            error_log('Failed to fetch tickets: ' . $e->getMessage());
-            return [];
         }
+
+        return $tickets;
+    } catch (\Throwable $e) {
+        error_log('Failed to fetch tickets: ' . $e->getMessage());
+        return [];
     }
+}
+
     public function updateTicketStatus($ticketId, $status) {
         try {
             $objectId = new ObjectId($ticketId);
@@ -162,6 +171,65 @@ class AdminModel {
             return false;
         }
     }
+    public function getTicketCounts() {
+        try {
+            // Total Tickets
+            $totalTickets = $this->ticketsCollection->countDocuments();
+    
+            // Active Tickets
+            $activeTickets = $this->ticketsCollection->countDocuments(['status' => 'Active']);
+    
+            // Done Tickets
+            $doneTickets = $this->ticketsCollection->countDocuments(['status' => 'Done']);
+    
+            return [
+                'total' => $totalTickets,
+                'active' => $activeTickets,
+                'done' => $doneTickets
+            ];
+        } catch (\Throwable $e) {
+            error_log("Failed to fetch ticket counts: " . $e->getMessage());
+            return [
+                'total' => 0,
+                'active' => 0,
+                'done' => 0
+            ];
+        }
+    }
+    public function getMonthlyTicketCounts() {
+        try {
+            $pipeline = [
+                [
+                    '$group' => [
+                        '_id' => ['$month' => '$createdAt'], 
+                        'count' => ['$sum' => 1]          
+                    ]
+                ],
+                ['$sort' => ['_id' => 1]]             
+            ];
+    
+            $result = $this->ticketsCollection->aggregate($pipeline);
+            $monthlyCounts = [];
+    
+            foreach ($result as $entry) {
+                $monthlyCounts[$entry['_id']] = $entry['count'];
+            }
+    
+     
+            for ($i = 1; $i <= 12; $i++) {
+                if (!isset($monthlyCounts[$i])) {
+                    $monthlyCounts[$i] = 0;
+                }
+            }
+    
+            ksort($monthlyCounts); 
+            return $monthlyCounts;
+        } catch (\Throwable $e) {
+            error_log("Failed to fetch monthly ticket counts: " . $e->getMessage());
+            return array_fill(1, 12, 0); 
+        }
+    }
+    
     
   
 }

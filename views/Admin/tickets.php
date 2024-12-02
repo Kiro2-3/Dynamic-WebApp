@@ -69,12 +69,14 @@ $paginatedTickets = array_slice($tickets, $offset, $rowsPerPage); // Fixed the v
                                 ?>
                             </td>
                             <td class="file-attachment">
-                                <?php if (!empty($ticket['file'])): ?>
-                                    <a href="<?php echo htmlspecialchars($ticket['file']); ?>" target="_blank">Download</a>
+                                <?php if (!empty($ticket['filePath'])): ?>
+                                    <a href="<?php echo htmlspecialchars($ticket['filePath']); ?>" target="_blank">Download</a>
                                 <?php else: ?>
                                     No attachment
                                 <?php endif; ?>
                             </td>
+
+
                             <td>
                                 <form method="post" action="">
                                     <input type="hidden" name="ticketId" value="<?php echo htmlspecialchars($ticket['_id']); ?>">

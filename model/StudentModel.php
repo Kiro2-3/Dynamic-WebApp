@@ -73,15 +73,15 @@
         public function insertTicketWithFile($email, $institute, $concern, $fileName, $fileType, $fileContent)
             {
                 try {
-                    $ticketId = uniqid(); // Generate a unique ID
+                    $ticketId = uniqid(); 
                     $ticketData = [
-                        'ticketId' => $ticketId, // Custom unique ID
+                        'ticketId' => $ticketId,
                         'Email' => $email,
                         'institute' => $institute,
                         'concern' => $concern,
                         'fileName' => $fileName,
                         'fileType' => $fileType,
-                        'fileContent' => $fileContent, // Store as base64 string
+                        'fileContent' => $fileContent, 
                         'status' => 'Active',
                     ];
 

@@ -1,3 +1,11 @@
+<?php
+require ($_SERVER['DOCUMENT_ROOT'] . '/model/AdminModel.php');
+
+$model = new \App\Models\AdminModel();
+$ticketCounts = $model->getTicketCounts();
+$monthlyCounts = $model->getMonthlyTicketCounts();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +15,8 @@
     <link rel="stylesheet" href="/public/styles/AdminCss/Statistics.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Admin Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    
 </head>
 <body>
 
@@ -17,34 +26,30 @@
         <div class="header" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
             Colegio de Montalban - <span style="color: white;">Statistics</span>
         </div>
-        
-        <div class="stats-section">
-            <div class="stat-card">
-                <i class="fas fa-ticket-alt stat-icon"></i>
-                <h4>Total Tickets</h4>
-                <p>123</p>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <i class="fas fa-ticket-alt stat-icon"></i>
+                    <h4>Total Tickets</h4>
+                    <p><?= htmlspecialchars($ticketCounts['total']) ?></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tasks stat-icon"></i>
+                    <h4>Active Tickets</h4>
+                    <p><?= htmlspecialchars($ticketCounts['active']) ?></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle stat-icon"></i>
+                    <h4>Closed Tickets</h4>
+                    <p><?= htmlspecialchars($ticketCounts['done']) ?></p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-comment-dots stat-icon"></i>
+                    <h4>Active Chats</h4>
+                    <p>10</p> >
+                </div>
             </div>
-            <div class="stat-card">
-                <i class="fas fa-tasks stat-icon"></i>
-                <h4>Active Tickets</h4>
-                <p>45</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-check-circle stat-icon"></i>
-                <h4>Closed Tickets</h4>
-                <p>78</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-comments stat-icon"></i>
-                <h4>Total Chats</h4>
-                <p>10</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-comment-dots stat-icon"></i>
-                <h4>Active Chats</h4>
-                <p>10</p>
-            </div>
-        </div>
+
         
         <div class="chart-section">
             <div class="chart" id="ticketChartContainer">
@@ -55,9 +60,11 @@
             </div>
         </div>
     </div>
+ 
 
     <script>
-        // Ticket Trend (Monthly) Chart
+        const monthlyTicketData = <?= json_encode(array_values($monthlyCounts)) ?>;
+                // Ticket Trend (Monthly) Chart
         const ticketCtx = document.getElementById('ticketChart').getContext('2d');
         const ticketChart = new Chart(ticketCtx, {
             type: 'bar',
@@ -65,7 +72,7 @@
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
                     label: 'Tickets Created',
-                    data: [10, 15, 8, 20, 25, 18, 30, 24, 15, 22, 19, 27], // Demo data
+                    data: monthlyTicketData, // Use dynamic data
                     backgroundColor: '#FEAE00',
                     borderColor: '#054721',
                     borderWidth: 1
@@ -85,6 +92,7 @@
                 }
             }
         });
+
 
         // Response Time (Average) Chart
         const responseCtx = document.getElementById('responseChart').getContext('2d');
